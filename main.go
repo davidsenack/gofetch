@@ -6,6 +6,7 @@ import (
 
 	"github.com/davidsenack/gofetch/pkg/cpu"
 	"github.com/davidsenack/gofetch/pkg/distro"
+	"github.com/davidsenack/gofetch/pkg/gpu"
 )
 
 func main() {
@@ -58,4 +59,11 @@ func main() {
 		return
 	}
 	fmt.Println("Terminal:", terminal)
+
+	gpu, err := gpu.GetCurrentGPU()
+	if err != nil {
+		fmt.Println("Error fetching GPU:", err)
+		return
+	}
+	fmt.Println("GPU:", gpu)
 }
