@@ -105,4 +105,6 @@ func main() {
 		return
 	}
 	printInfo("Memory", fmt.Sprintf("%d MB / %d MB", currentMemory, totalMemory))
+
+	distro.DisplayTerminalColors()
 }

@@ -159,3 +159,14 @@ func GetUserHost() (string, error) {
 
 	return fmt.Sprintf("%s@%s", user.Username, hostname), nil
 }
+
+func DisplayTerminalColors() {
+	fmt.Println()
+	for i := 0; i < 16; i++ {
+		fmt.Printf("\x1b[48;5;%dm    \x1b[0m", i)
+		if (i+1)%8 == 0 {
+			fmt.Println() // New line every 8 colors for better readability
+		}
+	}
+	fmt.Println()
+}
