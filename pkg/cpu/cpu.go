@@ -3,13 +3,13 @@ package cpu
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strings"
 )
 
 // GetCPUModel returns the model name of the CPU.
 func GetCPUModel() (string, error) {
-	data, err := ioutil.ReadFile("/proc/cpuinfo")
+	data, err := os.ReadFile("/proc/cpuinfo") // Updated function call
 	if err != nil {
 		return "", fmt.Errorf("error reading /proc/cpuinfo: %w", err)
 	}
