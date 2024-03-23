@@ -7,6 +7,7 @@ import (
 	"github.com/davidsenack/gofetch/pkg/cpu"
 	"github.com/davidsenack/gofetch/pkg/distro"
 	"github.com/davidsenack/gofetch/pkg/gpu"
+	"github.com/davidsenack/gofetch/pkg/memory"
 )
 
 func main() {
@@ -66,4 +67,18 @@ func main() {
 		return
 	}
 	fmt.Println("GPU:", gpu)
+
+	currentMemory, err := memory.GetCurrentMemory()
+	if err != nil {
+		fmt.Println("Error fetching memory:", err)
+		return
+	}
+
+	totalMemory, err := memory.GetTotalMemory()
+	if err != nil {
+		fmt.Println("Error fetching memory:", err)
+		return
+	}
+
+	fmt.Println("Memory:", currentMemory, "MB /", totalMemory, "MB")
 }
