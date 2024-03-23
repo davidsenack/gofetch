@@ -37,12 +37,12 @@ func main() {
 	printHeader(hostname)
 	fmt.Println(strings.Repeat("-", len(hostname)+2))
 
-	model, err := cpu.GetCPUModel()
+	currentOS, err := distro.GetDistro()
 	if err != nil {
-		printError("CPU model", err)
+		printError("distro", err)
 		return
 	}
-	printInfo("CPU Model", model)
+	printInfo("Distro", currentOS)
 
 	kernel, err := distro.GetKernelVersion()
 	if err != nil {
@@ -50,13 +50,6 @@ func main() {
 		return
 	}
 	printInfo("Kernel Version", kernel)
-
-	currentOS, err := distro.GetDistro()
-	if err != nil {
-		printError("distro", err)
-		return
-	}
-	printInfo("Distro", currentOS)
 
 	uptime, err := distro.GetSystemUptime()
 	if err != nil {
@@ -85,6 +78,13 @@ func main() {
 		return
 	}
 	printInfo("Terminal", terminal)
+
+	cpu, err := cpu.GetCPUModel()
+	if err != nil {
+		printError("CPU model", err)
+		return
+	}
+	printInfo("CPU", cpu)
 
 	gpu, err := gpu.GetCurrentGPU()
 	if err != nil {
