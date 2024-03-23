@@ -1,5 +1,8 @@
 # Gofetch
 
+![Gofetch Screenshot](/assets/screenshot.png)
+
+
 Gofetch is a lightweight, efficient tool designed to fetch and display essential system information directly from your command line. With Gofetch, you can quickly get details about your operating system, CPU, memory usage, and more, all presented in a clean, readable format. Whether you're a system administrator needing to monitor resource usage, a developer interested in system specs, or just a curious user, Gofetch provides the information you need at a glance.
 
 ### Features
