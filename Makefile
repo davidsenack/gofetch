@@ -1,3 +1,6 @@
+test:
+	go test -v ./...
+
 build:
 	go build --compiler gccgo -gccgoflags "-Ofast -s -w" -o build-output/current/gofetch main.go
 
