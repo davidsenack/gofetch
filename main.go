@@ -23,10 +23,39 @@ func main() {
 	}
 	fmt.Println("Kernel Version:", kernel)
 
-	distro, err := distro.GetDistro()
+	currentOS, err := distro.GetDistro()
 	if err != nil {
 		fmt.Println("Error fetching distro:", err)
 		return
 	}
-	fmt.Println("Distro:", distro)
+	fmt.Println("Distro:", currentOS)
+
+	uptime, err := distro.GetSystemUptime()
+	if err != nil {
+		fmt.Println("Error fetching system uptime:", err)
+		return
+	}
+	fmt.Println("System Uptime:", uptime)
+
+	packages, count, err := distro.GetInstalledPackages()
+	if err != nil {
+		fmt.Println("Error fetching installed packages:", err)
+		return
+	}
+	fmt.Println("Packages:", count, "(", packages, ")")
+
+	shellVersion, err := distro.GetShellVersion()
+	if err != nil {
+		fmt.Println("Error fetching shell version:", err)
+		return
+	}
+
+	fmt.Printf("Shell: %s\n", shellVersion)
+
+	terminal, err := distro.GetTerminal()
+	if err != nil {
+		fmt.Println("Error fetching terminal:", err)
+		return
+	}
+	fmt.Println("Terminal:", terminal)
 }
