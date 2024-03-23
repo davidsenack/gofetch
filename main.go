@@ -3,6 +3,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/davidsenack/gofetch/pkg/cpu"
 	"github.com/davidsenack/gofetch/pkg/distro"
@@ -11,74 +12,97 @@ import (
 )
 
 func main() {
-	model, err := cpu.GetCPUModel()
+	const (
+		redColor   = "\033[31m"
+		resetColor = "\033[0m"
+	)
+
+	printError := func(msg string, err error) {
+		fmt.Printf("\n%sError fetching %s: %v%s\n", redColor, msg, err, resetColor)
+	}
+
+	printInfo := func(label, info string) {
+		fmt.Printf("%s%s:%s %s\n", redColor, label, resetColor, info)
+	}
+
+	printHeader := func(header string) {
+		fmt.Printf("\n%s%s%s\n", redColor, header, resetColor)
+	}
+
+	hostname, err := distro.GetUserHost()
 	if err != nil {
-		fmt.Println("Error fetching CPU model:", err)
+		printError("user@hostname", err)
 		return
 	}
-	fmt.Println("CPU Model:", model)
+	printHeader(hostname)
+	fmt.Println(strings.Repeat("-", len(hostname)+2))
+
+	model, err := cpu.GetCPUModel()
+	if err != nil {
+		printError("CPU model", err)
+		return
+	}
+	printInfo("CPU Model", model)
 
 	kernel, err := distro.GetKernelVersion()
 	if err != nil {
-		fmt.Println("Error fetching kernel version:", err)
+		printError("kernel version", err)
 		return
 	}
-	fmt.Println("Kernel Version:", kernel)
+	printInfo("Kernel Version", kernel)
 
 	currentOS, err := distro.GetDistro()
 	if err != nil {
-		fmt.Println("Error fetching distro:", err)
+		printError("distro", err)
 		return
 	}
-	fmt.Println("Distro:", currentOS)
+	printInfo("Distro", currentOS)
 
 	uptime, err := distro.GetSystemUptime()
 	if err != nil {
-		fmt.Println("Error fetching system uptime:", err)
+		printError("system uptime", err)
 		return
 	}
-	fmt.Println("System Uptime:", uptime)
+	printInfo("System Uptime", uptime)
 
-	packages, count, err := distro.GetInstalledPackages()
+	packages, packageManager, err := distro.GetInstalledPackages()
 	if err != nil {
-		fmt.Println("Error fetching installed packages:", err)
+		printError("installed packages", err)
 		return
 	}
-	fmt.Println("Packages:", count, "(", packages, ")")
+	printInfo("Packages", fmt.Sprintf("%d (%s)", packages, packageManager))
 
 	shellVersion, err := distro.GetShellVersion()
 	if err != nil {
-		fmt.Println("Error fetching shell version:", err)
+		printError("shell version", err)
 		return
 	}
-
-	fmt.Printf("Shell: %s\n", shellVersion)
+	printInfo("Shell", shellVersion)
 
 	terminal, err := distro.GetTerminal()
 	if err != nil {
-		fmt.Println("Error fetching terminal:", err)
+		printError("terminal", err)
 		return
 	}
-	fmt.Println("Terminal:", terminal)
+	printInfo("Terminal", terminal)
 
 	gpu, err := gpu.GetCurrentGPU()
 	if err != nil {
-		fmt.Println("Error fetching GPU:", err)
+		printError("GPU", err)
 		return
 	}
-	fmt.Println("GPU:", gpu)
+	printInfo("GPU", gpu)
 
 	currentMemory, err := memory.GetCurrentMemory()
 	if err != nil {
-		fmt.Println("Error fetching memory:", err)
+		printError("memory", err)
 		return
 	}
 
 	totalMemory, err := memory.GetTotalMemory()
 	if err != nil {
-		fmt.Println("Error fetching memory:", err)
+		printError("memory", err)
 		return
 	}
-
-	fmt.Println("Memory:", currentMemory, "MB /", totalMemory, "MB")
+	printInfo("Memory", fmt.Sprintf("%d MB / %d MB", currentMemory, totalMemory))
 }
