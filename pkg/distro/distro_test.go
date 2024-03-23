@@ -1,7 +1,7 @@
 package distro
 
 import (
-	"strconv" // Added for string to int conversion
+	"fmt"
 	"testing"
 )
 
@@ -30,9 +30,9 @@ func TestGetSystemUptime(t *testing.T) {
 	if err != nil {
 		t.Errorf("GetSystemUptime() failed, expected no error, got %v", err)
 	}
-	uptimeInt, err := strconv.Atoi(uptime) // Convert uptime from string to int
+	uptimeInt, err := parseUptime(uptime) // Convert uptime from formatted string to total seconds
 	if err != nil {
-		t.Errorf("Failed to convert uptime to integer, got error: %v", err)
+		t.Errorf("Failed to parse uptime, got error: %v", err)
 	}
 	if uptimeInt <= 0 {
 		t.Errorf("GetSystemUptime() failed, expected a positive uptime, got %d", uptimeInt)
@@ -70,4 +70,15 @@ func TestGetTerminal(t *testing.T) {
 	if terminal == "" {
 		t.Errorf("GetTerminal() failed, expected a non-empty string, got an empty string")
 	}
+}
+
+// parseUptime parses a formatted uptime string (e.g., "1d 2h 3m 4s") into total seconds.
+func parseUptime(uptime string) (int, error) {
+	var days, hours, minutes, seconds int
+	_, err := fmt.Sscanf(uptime, "%dd %dh %dm %ds", &days, &hours, &minutes, &seconds)
+	if err != nil {
+		return 0, err
+	}
+	totalSeconds := days*86400 + hours*3600 + minutes*60 + seconds
+	return totalSeconds, nil
 }
