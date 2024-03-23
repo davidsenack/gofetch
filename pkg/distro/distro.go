@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"os/user"
 	"strconv"
 	"strings"
 )
@@ -142,4 +143,19 @@ func GetTerminal() (string, error) {
 		return "", fmt.Errorf("TERM environment variable not set")
 	}
 	return terminal, nil
+}
+
+// GetUserHost returns the current user and hostname in the format user@hostname.
+func GetUserHost() (string, error) {
+	user, err := user.Current()
+	if err != nil {
+		return "", fmt.Errorf("error getting current user: %w", err)
+	}
+
+	hostname, err := os.Hostname()
+	if err != nil {
+		return "", fmt.Errorf("error getting hostname: %w", err)
+	}
+
+	return fmt.Sprintf("%s@%s", user.Username, hostname), nil
 }
