@@ -6,6 +6,5 @@ obj/
 .idea/
 *.swp
 .DS_Store
-go.mod
 build/
 build-output/
