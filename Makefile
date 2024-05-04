@@ -24,4 +24,9 @@ package:
 	tar -czvf bin/main-linux-amd64.tar.gz bin/main-linux-amd64
 
 
+copy:
+	cp build-output/current/gofetch /usr/local/bin
+
+install: build copy
+
 all: build compile
