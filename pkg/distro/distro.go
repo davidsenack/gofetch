@@ -131,6 +131,8 @@ func GetShellVersion() (string, error) {
 		cmd = exec.Command("bash", "--version")
 	case "zsh":
 		cmd = exec.Command("zsh", "--version")
+	case "ash":
+		cmd = exec.Command("busybox | head -1", "")
 	default:
 		return "", fmt.Errorf("shell version retrieval not supported for %s", shell)
 	}
