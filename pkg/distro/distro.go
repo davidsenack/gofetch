@@ -91,6 +91,14 @@ func GetInstalledPackages() (int, string, error) {
 		lines := strings.Split(string(data), "\n")
 		count = len(lines) - 1 // Adjusting for the last empty line in rpm output
 		pkgType = "rpm"
+	} else if _, err := os.Stat("/usr/bin/apk"); err == nil { // Check for the presence of apk (Alpine Linux-based systems)
+		data, err := exec.Command("apk", "list").Output()
+		if err != nil {
+			return 0, "", fmt.Errorf("error listing apk packages: %w", err)
+		}
+		lines := strings.Split(string(data), "\n")
+		count = len(lines) // apk needs no line adjustement
+		pkgType = "apk"
 	} else {
 		return 0, "", fmt.Errorf("package manager not supported")
 	}
