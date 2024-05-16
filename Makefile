@@ -12,7 +12,7 @@ run:
 release:
 	echo "Compiling for Linux x86_64"
 	mkdir bin/gofetch-current-linux-amd64
-	GOOS=linux GOARCH=amd64 go build --compiler gccgo -gccgoflags "-Ofast -s -w" -o bin/gofetch-current-linux-amd64/gofetch main.go
+	GOOS=linux GOARCH=amd64 go build --compiler gccgo -gccgoflags "-Ofast -s -w -static" -o bin/gofetch-current-linux-amd64/gofetch main.go
 	cp README.md bin/gofetch-current-linux-amd64
 	cp LICENSE bin/gofetch-current-linux-amd64
 	tar -czvf bin/gofetch-current-linux-amd64.tar.gz bin/gofetch-current-linux-amd64

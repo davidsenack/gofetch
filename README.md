@@ -7,16 +7,19 @@ Gofetch is a lightweight, efficient tool designed to fetch and display essential
 
 ---
 
-### Dependencies
+### Install
+
+---
+
+To install the pre-built binary, simply run the install script:
+```./install```
+
+
+### Compile and Install
 
 ---
 
 Gofetch requires the ```go``` or ```gccgo``` compiler.
-
-### Installation
-
----
-
 To install, simply run make:
 ```
 make install
